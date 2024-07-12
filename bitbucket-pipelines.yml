@@ -1,0 +1,244 @@
+pipelines:
+  default:
+    - step:
+        name: "Call Vertex AI API"
+        image: google/cloud-sdk:latest
+        caches:
+          - gradle
+        script:
+          - |
+            apt-get update && apt-get install -y jq # install jq to parse json
+            git fetch --unshallow || true  # ensures the entire git history is available, ignores errors if repo is already complete
+            FILE_LIMIT=20 # codebase file limit
+            GOOGLE_CLOUD_CREDENTIALS="ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAiY3J5c3RhbGxvaWRzLXBsdWdpbiIsCiAgInByaXZhdGVfa2V5X2lkIjogIjhmY2ZhMWFmYjNkYTQwMDNiODUzYWM1MWZkY2M3NWY3MWMyNTE5YmUiLAogICJwcml2YXRlX2tleSI6ICItLS0tLUJFR0lOIFBSSVZBVEUgS0VZLS0tLS1cbk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRRFcrNm9lMVpCRE1WSjBcbjNqcGpldG9ib3VtMElXYzQzQXJ1SU8zK0dOSlBIR3pxMzFNSTdhekk3MEhhMld1REx6eEh0eTRRekpuWmJ6andcblY1UzBVbTNZeG5wNXBCc2UyL2J1dHpzUmdodVkrL0ErdExBUGNqMHNidzZmU2R5czhGN1ZwM0lsQlhWY0JlZkRcbmJuTTI2Y0FvdnJyY1poaGNzQ2VGTm1ZL3BwMG5hdVUyTmExOTFnL3BtMEZ2T1ovajN3ckJPOWZndVhjbU82eXhcbjJURW1YYWNPRDNTR3NrNVVTeDhtQlNXdWg4U3lKb3BNSlkyelBMWHFHeFU1aTUvLzQ0VUFPZXNYdGhyVEl2RGVcbnhHT255eEJIYXZDdDE1NE5QZk9oaVd2WjBXbGQ5UnVxdVo4d1VUOUdoTUROdGsvQjR2Y1hsOVNkU3M3cHVwVFBcbjkrQnMyalNqQWdNQkFBRUNnZ0VBQVZqS0xHd0VHS3ZoSGVTSGt4Mk5jWjlvQjRTMTJBemdCSEhMTmdKNVJmdWJcblYrdDBySnpBSjhsNkMzVnN0K2F0c3NvcHJ0TFd5MGJUeWVualpJNEZ3SkxQMnpJVG9nMHM4WXQrVXpCd2V4WGdcbityOWhDek9FenJLNFFwTGxHVEFPQWlZR0NXbW5tdFVXMldodU5VejN6Z0xPYVo5aVZLSys4QUdiU3g1NXUxeDVcbnR5dm52a2lsRDNOdThIWmRibmhBRXNkVjkwZzl5SzAyVTZZcmFiMG9oMFhQeFd1a2Z1N0hwem5wRjVKbnVSUlVcbk1qajdZYjlnbU1kcWJaUU5pZ0FEbURBQjFQSDhjakN6VlNPZHRCYk44ZlJqTG1ZWFZBbTZyeDIvN0dSNzZPNlBcbnI4Vmt6R3I1blhFTVc0YjBNbXNyanFING91dEtvQ2pCWktVOERNUjJtUUtCZ1FEM1I2SUFvTVlxNjhxUlpnZGRcbkVIL2ROS0diaU9VM25CR3R5RjIvaTZzNFJ3c2U1NDdNMFVKcTVjbGhiTS9hUDUwYnFzbXdKRmZpY1BUd0FOc2tcbkxiRmZZTFI1Tnp0b1JSNjRwQXFSVU1qR3EwWEVkOVlBSmx5ZnNERE5KNWcwdUtjc2dkcXBBdldrNktrN0lyajJcbm1SQVdJSUIySG95TGtWYUxVVWl2T1pSK0h3S0JnUURla0hkb2JCQTBlb0V4WmE0TGI3WE5jZTRrWlVrcUVEaVlcbnp2dzk2UGYzeDM1N2NnVlZrclpkRmtWWThTUERZNk9EYTQ5djB6UVhxcURRbit6SzRCZmlXdlF3RTdoNTcyTzNcbm43TnNFanpIRmVxQ3lFdXdkZ1daWVVaUkI1NjIvc3ZLL0ZyUTh4NXBzK28zdzZNdFVIZDN0d2hWNW1PbFVQZG1cbkhYTzQzSlJ3L1FLQmdDTmpZZ0RiQVdFMUcybFJnNjVDNVRtZ0JaeS9xNllZdE1MOUVNV1AxSElhWUxJTWkzZ3VcblhtWHorcXp4cUpGZ1Z6aVZhWVhHdmJrUFYwNWRvUDc5ZHd2aVNCR3M0TmljUTdoQzZheEFObXVRS1V6anBZR2hcbis5RnlvcGxKbUZPN05WbCtQKysrRjYrQkNHOEpHaFZZZEYvbVNOd2VwUmg0TlQxODVYMEdMWVViQW9HQkFKVkVcbnF2RWIyTnA1ZHdCY1E1aGorYmlxT3ArcVZxR2hjM1A1RG0rdk9lK3ltbi9NZnd0ZmRIT0dKa2g2b2hPL1ZjRWtcbmVIVDFYN0NudldkdWV1K3QwQmIrRFZ2WlBoWjVtWlZqeElBczB4cHE5bmQwUWw4OUtKQXdEMnIxQTF1VUU3WTFcbi9lcTV3Nkg5Q284UDVQYlZTdXE5bFJlWGh5a3UzbDVjVG1xamRlTTVBb0dBZGdNVTJZd3ZyU2pIWjRnV29sL0RcblNjZ0ZEMHcvZVFFL2c3d285MGc0bjR5QlJ3Vi9rajNpMU1kUlZPdjhoUHprZUVIaWpKNExNSXBQTkp0TUpTYTFcbnJGQW11ZTRFaXlaOEQvek9yT3p3N1NmM2VEcElXQUFTTDZzdUg2czRRNWVkSUJta2dMenFQeFgrOVJ4VVJ2SEZcbmJzN3h4YzFDYzA0TnNBTkNkWTMzVXN3PVxuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImpvaG5ueUBjcnlzdGFsbG9pZHMtcGx1Z2luLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwKICAiY2xpZW50X2lkIjogIjEwMjI5NzQ0MTA2MDUyMzI1MTgwNSIsCiAgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwKICAidG9rZW5fdXJpIjogImh0dHBzOi8vb2F1dGgyLmdvb2dsZWFwaXMuY29tL3Rva2VuIiwKICAiYXV0aF9wcm92aWRlcl94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL29hdXRoMi92MS9jZXJ0cyIsCiAgImNsaWVudF94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3JvYm90L3YxL21ldGFkYXRhL3g1MDkvam9obm55JTQwY3J5c3RhbGxvaWRzLXBsdWdpbi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsCiAgInVuaXZlcnNlX2RvbWFpbiI6ICJnb29nbGVhcGlzLmNvbSIKfQo="
+            PROJECT_ID="crystalloids-plugin"
+            MODEL_ID="gemini-1.5-pro-001"
+            ENDPOINT="https://europe-west4-aiplatform.googleapis.com/v1/projects/$PROJECT_ID/locations/europe-west4/publishers/google/models/$MODEL_ID:streamGenerateContent"
+            
+            prompt="""Generate a valid JSON response without any code block formatting in this format:
+            "'{
+              "commit": {
+                commit_number: "Enter commit number here",
+                author: "Enter author name here",
+                date: "Enter commit date here in the format of YYYY-MM-DD HH:MM:SS",
+                },
+              "classes": [
+                {
+                  "class_name": "ChangedFile1 in commit, not context",
+                  "added": "Describe the lines added here for ChangedFile1",
+                  "removed": "Describe the lines removed here for ChangedFile1",
+                },
+                {
+                  "class_name": "ChangedFile2, only if in commit show",
+                  "added": "Describe the lines added here for ChangedFile2",
+                  "removed": "Describe the lines removed here for ChangedFile2",
+                }
+              ],
+              "potential_issues": "List potential issues here",
+              "overall_impact": "Describe the overall impact here",
+              "dependency_conflicts": "List any dependency conflicts here"
+            }'"
+            \n The following is the commit and lines with only '+' and '-' are added or deleted whitespaces:( $(git show) )\n And the following files are only used for context:"""
+            
+            javadocPrompt="Act as a Java expert proficient in Javadoc best practices. Given a Java class, analyze its structure, fields, constructors, and methods. Generate a complete class declaration including
+            1. **Class-level Javadoc**  Provide a concise overview of the class's purpose, any assumptions, and potential usage scenarios.
+            2. **Javadoc for Each Member**
+            * **Field** Document the meaning, type, and constraints of each field.
+            * **Constructors** Explain the purpose of each constructor, the parameters it accepts, and any exceptions it might throw.
+            * **Methods** Detail each method's functionality, parameters (including their meanings and expected types), return values, and any potential exceptions. Include the '@param', '@return', and '@throws' tags as appropriate.
+            * And not just {@inheritDoc}
+            * No Usage examples
+            3. **Adhere to Standard Conventions:** Follow Javadoc formatting guidelines, use appropriate tags, and maintain a consistent style. "
+
+          - |
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)  # get the files changed in the last commit
+            echo "Files changed in the last commit: $CHANGED_FILES"
+            CHANGED_FILE_COUNT=$(echo "$CHANGED_FILES" | wc -l)  # counts the number of changed files
+            echo "Number of files changed: $CHANGED_FILE_COUNT"
+            JAVA_FILES_COUNT=$(find . -type f -name "*.java" | wc -l) # counts the number of java files in the codebase
+            echo "Number of java files: $JAVA_FILES_COUNT" 
+
+          - |
+            if [ "$JAVA_FILES_COUNT" -lt "$FILE_LIMIT" ]; then
+              # process all .java and pom.xml files
+              for file in $(find . -type f \( -name "*.java" -or -name "pom.xml" \) | sed 's|^\./||'); 
+              do
+                prompt+=" $file \n $(cat "$file")\n " # add the file content to the prompt
+              done
+            else
+              # process only changed files
+              for file in $CHANGED_FILES; do
+                if [ "$file" = "pom.xml" ]; then
+                  pom_xml_content=$(cat "$file")
+                elif [ -f "$file" ]; then # Ensure it's actually a file (not a deleted file)
+                  prompt+=" $file \n $(cat "$file")\n " # add the file content to the prompt
+                fi
+              done
+              # add the pom.xml content to the prompt
+              prompt+=$(find . -type f -name "pom.xml" -print0 | xargs -0 -I{} sh -c 'echo "{} \n $(cat "{}") \n"')
+            fi   
+            
+            jsonSafeString=$(echo "$prompt" | jq -R -s @json) # escape the string to be json safe
+            json_data='''
+              {
+                "contents": [
+                  {
+                    "role": "user",
+                    "parts": [
+                      {
+                        "text": '$jsonSafeString'
+                      }
+                    ]
+                  }
+                ]
+              }
+            '''
+            echo "$json_data"
+
+          - echo "$prompt"
+
+          - |
+            echo $GOOGLE_CLOUD_CREDENTIALS | base64 --decode > /tmp/gcloud-service-key.json # decode the service account key
+            gcloud auth activate-service-account --key-file=/tmp/gcloud-service-key.json # authenticate with the service account
+            gcloud config set project $PROJECT_ID # set the project id
+
+          - |
+            response=$(curl -v \
+            -H "Authorization: Bearer $(gcloud auth print-access-token)"  \
+            -H "Content-Type: application/json" \
+            "$ENDPOINT" -d "$json_data")
+
+          - echo "$response"
+
+          - |
+            combined_text=$(echo "$response" | jq -r '[.[] | .candidates[]? | .content? | .parts[]? | .text] | join("")') # extract the text from the response
+            echo "Changes:" " $combined_text"
+            echo "$combined_text" > changes.json
+            JsonInput="""JSON Token Count Input: $(echo "$response" | jq -rc '[.[] | .usageMetadata.promptTokenCount] | join(" ")')""" # extract the tokens from the response
+            JsonOutput="""JSON Token Count Output: $(echo "$response" | jq -rc '[.[] | .usageMetadata.candidatesTokenCount] | join(" ")')""" # extract the tokens from the response
+
+          - |
+            JAVA_FILES=()
+            JAVA_CLASSES=()
+            TOKEN_COUNT_INPUT=()
+            TOKEN_COUNT_OUTPUT=()
+            i=0
+            if [ "$JAVA_FILES_COUNT" -lt "$FILE_LIMIT" ]; then # if the number of java files is less than the limit
+              for file in $(find . -type f \( -name "*.java" \) | sed 's|^\./||'); 
+              do
+                prompt2="$javadocPrompt \n + $file \n $(cat "$file")\n " # add the file content to the prompt
+                jsonSafeString=$(echo "$prompt2" | jq -R -s @json)
+                json_data='''
+                  {
+                    "contents": [
+                      {
+                        "role": "user",
+                        "parts": [
+                          {
+                            "text": '$jsonSafeString'
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                '''
+                response=$(curl -v \
+                -H "Authorization: Bearer $(gcloud auth print-access-token)"  \
+                -H "Content-Type: application/json" \
+                "$ENDPOINT" -d "$json_data")
+            
+                JAVA_FILES[$i]=$file
+                combined_text2=$(echo "$response" | jq -r '[.[] | .candidates[]? | .content? | .parts[]? | .text] | join("")') # extract the text from the response
+                JAVA_CLASSES[$i]=$combined_text2
+                tokenCountInput=$(echo "$response" | jq -rc '[.[] | .usageMetadata.promptTokenCount] | join(" ")') # extract the text from the response
+                tokenCountOutput=$(echo "$response" | jq -rc '[.[] | .usageMetadata.candidatesTokenCount] | join(" ")') # extract the text from the response
+                TOKEN_COUNT_INPUT[$i]=$tokenCountInput
+                TOKEN_COUNT_OUTPUT[$i]=$tokenCountOutput
+                echo "Javadocs:" " $combined_text2"
+                i+=1
+              done
+            else # if the number of java files is greater than the limit
+              for file in $CHANGED_FILES;
+               do
+                if [[ $file == *.java ]]; then
+                  prompt2="$javadocPrompt \n + $file \n $(cat "$file")\n " # add the file content to the prompt
+                  jsonSafeString=$(echo "$prompt2" | jq -R -s @json)
+                  json_data='''
+                    {
+                      "contents": [
+                        {
+                          "role": "user",
+                          "parts": [
+                            {
+                              "text": '$jsonSafeString'
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  '''
+                  response=$(curl -v \
+                  -H "Authorization: Bearer $(gcloud auth print-access-token)"  \
+                  -H "Content-Type: application/json" \
+                  "$ENDPOINT" -d "$json_data")
+            
+                  JAVA_FILES[$i]=$file
+                  combined_text2=$(echo "$response" | jq -r '[.[] | .candidates[]? | .content? | .parts[]? | .text] | join("")') # extract the text from the response
+                  JAVA_CLASSES[$i]=$combined_text2
+                  tokenCountInput=$(echo "$response" | jq -rc '[.[] | .usageMetadata.promptTokenCount] | join(" ")') # extract the text from the response
+                  tokenCountOutput=$(echo "$response" | jq -rc '[.[] | .usageMetadata.candidatesTokenCount] | join(" ")') # extract the text from the response
+                  TOKEN_COUNT_INPUT[$i]=$tokenCountInput
+                  TOKEN_COUNT_OUTPUT[$i]=$tokenCountOutput
+                  echo "Javadocs:" " $combined_text2"
+                  i+=1
+                fi
+               done
+            fi
+
+            i=0
+            CLEAN_JAVA_CLASSES=()
+            echo "Extracted Java Classes:"
+            for i in "${!JAVA_CLASSES[@]}"; do
+              CLEAN_JAVA_CLASSES[$i]=$(echo "${JAVA_CLASSES[$i]}" | sed -e 's/```java//g' -e 's/```//g') # remove code block formatting
+              echo "${CLEAN_JAVA_CLASSES[$i]}"
+              i+=1
+            done
+            
+            i=0
+            for i in "${!CLEAN_JAVA_CLASSES[@]}"; do
+              echo "Processing Class: $((i+1))"
+              echo "Class Content: ${CLEAN_JAVA_CLASSES[$i]}"
+              echo "Destination File: ${JAVA_FILES[$i]}"
+              # Write the class content to the destination file
+              echo "${CLEAN_JAVA_CLASSES[$i]}" > "${JAVA_FILES[$i]}"
+              # Ensure the destination directory exists in artifact-directory
+              mkdir -p "artifact-directory/$(dirname ${JAVA_FILES[$i]})"
+              # Copy the modified file to artifact-directory while preserving the directory structure
+              cp --parents "${JAVA_FILES[$i]}" artifact-directory/
+              i+=1
+            done
+            
+            i=0
+            INPUT=0
+            OUTPUT=0
+            for i in "${!TOKEN_COUNT_INPUT[@]}"; do
+              INPUT=$((INPUT + ${TOKEN_COUNT_INPUT[$i]}))
+              OUTPUT=$((OUTPUT + ${TOKEN_COUNT_OUTPUT[$i]}))
+              i+=1
+            done
+            
+            mkdir -p artifact-directory/src
+
+          - |
+            echo "Token Count:"
+            echo "${JsonInput}"
+            echo "${JsonOutput}"
+            echo "Javadoc Token Count Input: ${INPUT}"
+            echo "Javadoc Token Count Output: ${OUTPUT}"
+
+          - |
+            echo "Changes JSON: $combined_text"
+
+        artifacts:
+          - changes.json
+          - artifact-directory/**

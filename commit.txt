@@ -1,0 +1,20 @@
+commit 947c3b527f96ba87d947a1b3f60ed6eafb6dfffe
+Author: johnny.guo <johnnyguoli@gmail.com>
+Date:   Tue May 21 17:22:39 2024 +0200
+
+    Vertex AI Credentials test
+
+diff --git a/bitbucket-pipelines.yml b/bitbucket-pipelines.yml
+index ad9f6f5..17e0a1d 100644
+--- a/bitbucket-pipelines.yml
++++ b/bitbucket-pipelines.yml
+@@ -5,8 +5,7 @@ pipelines:
+     - step:
+         name: Call Vertex AI API
+         script:
+-          - $GOOGLE_CLOUD_CREDENTIALS | base64 --decode > /tmp/gcloud-service-key.json
+-          - $GOOGLE_CLOUD_CREDENTIALS
++          - echo $GOOGLE_CLOUD_CREDENTIALS | base64 --decode > /tmp/gcloud-service-key.json
+           - gcloud auth activate-service-account --key-file=/tmp/gcloud-service-key.json
+           - gcloud config set project $PROJECT_ID
+ #          - echo "https://europe-west4-aiplatform.googleapis.com/v1/projects/$PROJECT_ID/locations/europe-west4/models/$MODEL_ID:predict"
